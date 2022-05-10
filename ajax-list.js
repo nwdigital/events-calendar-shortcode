@@ -11,6 +11,7 @@ jQuery( document ).on( 'click', '.event-paginatate', function() {
       excerpt : events_list.excerpt,
       thumbnail : events_list.thumbnail,
 			columns : events_list.columns,
+			categories : events_list.categories,
 			security : events_list.security
 		},
     beforeSend : function( response ) {

@@ -3,7 +3,7 @@
 * Plugin Name: The Events Calendar Multisite Shortcode
 * Plugin URI: https://northwoodsdigital.com
 * Description: A simple REST API plugin with AJAX pagination to enable the display of events on a subsite of a WordPress Multisite Netork or any other WordPress Website using The Events Calendar by Modern Tribe. Usage: [events-list url="https://mysite.com" limit="6" excerpt="true" thumbnail="true" nav="true" categories="" page_number="1" columns="1"]
-* Version: 1.2.1
+* Version: 1.2.3
 * Author: Mathew Moore
 * Author URI: https://northwoodsdigital.com
 * License: GPLv2 or later
@@ -42,13 +42,14 @@ function events_list_ajax_next() {
   $excerpt = wp_strip_all_tags($_POST['excerpt']);
   $thumbnail = wp_strip_all_tags($_POST['thumbnail']);
   $columns = absint($_POST['columns']);
+  $categories = wp_strip_all_tags($_POST['categories']);
   $security = wp_strip_all_tags($_POST['security']);
 
   if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
     if (! wp_verify_nonce($security, 'nwd-events') ) {
       die( __( 'Security check', 'textdomain' ) );
     } else {
-      echo do_shortcode('[events-list url="'.$url.'" limit="'.$limit.'" excerpt="'.$excerpt.'" thumbnail="'.$thumbnail.'" page_number="'.$page_number.'" columns="'.$columns.'"]');
+      echo do_shortcode('[events-list url="'.$url.'" limit="'.$limit.'" excerpt="'.$excerpt.'" thumbnail="'.$thumbnail.'" page_number="'.$page_number.'" columns="'.$columns.'" categories="'.$categories.'"]');
     }
   }
   die();
@@ -229,6 +230,7 @@ function events_shortcode_by_hike4($atts){
     'thumbnail' =>  wp_strip_all_tags($a['thumbnail']),
     'plugins_url' => plugins_url( '/', __FILE__ ),
     'columns' => absint($a['columns']),
+    'categories' => wp_strip_all_tags($a['categories']),
     'security' => wp_create_nonce('nwd-events')
   ));
   // Enqueue Ajax Scripts END
